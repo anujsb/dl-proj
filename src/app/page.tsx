@@ -1,52 +1,73 @@
-"use client"
+"use client";
 
-import React, { useState, ChangeEvent, FormEvent } from 'react'
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const page = () => {
-  const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
-  const [image, setImage] = useState<File | null>(null)
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0]
-      setImage(file)
-      const reader = new FileReader()
+      const file = e.target.files[0];
+      setImage(file);
+      const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string)
-      }
-      reader.readAsDataURL(file)
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
-  }
+  };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log({ title, content, image })
-    setTitle('')
-    setContent('')
-    setImage(null)
-    setImagePreview(null)
-  }
+    e.preventDefault();
+    console.log({ title, content, image });
+    setTitle("");
+    setContent("");
+    setImage(null);
+    setImagePreview(null);
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-4 mt-10 bg-neutral-100 p-10 shadow-sm border rounded-2xl">
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-2xl mx-auto space-y-4 mt-10 bg-neutral-100 p-10 shadow-sm border rounded-2xl"
+    >
       <h1 className="text-2xl font-bold mb-4">Image Entity Extractor </h1>
-      
+
       <div>
-        <Label htmlFor="title">Entity Name</Label>
-        <Input
-          id="title"
-          type="text"
-          placeholder="Enter post title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
+        <Select>
+          <SelectTrigger className="">
+            <SelectValue placeholder="Select Entity" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Entity</SelectLabel>
+              <SelectItem value="width">width</SelectItem>
+              <SelectItem value="depth">depth</SelectItem>
+              <SelectItem value="height">height</SelectItem>
+              <SelectItem value="item_weight">item_weight</SelectItem>
+              <SelectItem value="maximum_weight_recommendation">maximum_weight_recommendation</SelectItem>
+              <SelectItem value="voltage">voltage</SelectItem>
+              <SelectItem value="wattage">wattage</SelectItem>
+              <SelectItem value="item_volume">item_volume</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* <div>
@@ -74,7 +95,11 @@ const page = () => {
 
       {imagePreview && (
         <div className="mt-4">
-          <img src={imagePreview} alt="Preview" className="max-w-full h-auto rounded-lg" />
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="max-w-full h-auto rounded-lg"
+          />
         </div>
       )}
 
@@ -82,8 +107,7 @@ const page = () => {
         Create Post
       </Button>
     </form>
-  )
-}
+  );
+};
 
-export default page
-
+export default page;
